@@ -361,3 +361,15 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+## User Secrets (extra safety net)
+**/secrets.json
+appsettings.Development.json
+appsettings.Local.json
+
+## SQL Server local files
+*.mdf
+*.ldf
+
+## Visual Studio
+.vs/
+*.user
