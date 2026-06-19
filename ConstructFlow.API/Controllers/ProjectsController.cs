@@ -3,12 +3,14 @@ using ConstructFlow.Application.Projects.Commands.UpdateProject;
 using ConstructFlow.Application.Projects.Queries.GetAllProjects;
 using ConstructFlow.Application.Projects.Queries.GetProjectById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConstructFlow.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ProjectsController : ControllerBase
 {
     private readonly IMediator _mediator;
