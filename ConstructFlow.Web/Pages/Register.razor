@@ -1,0 +1,91 @@
+﻿@page "/register"
+@layout AuthLayout
+
+<PageTitle>Create Account - ConstructFlow</PageTitle>
+
+<div class="login-split">
+    <div class="login-visual">
+        <div class="login-visual-content">
+            <div class="visual-brand">
+                <span class="brand-mark brand-mark-lg">CF</span>
+                <span class="brand-name brand-name-lg">ConstructFlow</span>
+            </div>
+            <h2 class="visual-headline">Join the team<br />managing it all.</h2>
+            <p class="visual-subtext">Create an account to start tracking projects, vendors, and inventory in one place.</p>
+
+            <div class="visual-stats">
+                <div class="visual-stat">
+                    <span class="visual-stat-number">4</span>
+                    <span class="visual-stat-label">Core Modules</span>
+                </div>
+                <div class="visual-stat">
+                    <span class="visual-stat-number">100%</span>
+                    <span class="visual-stat-label">Real-time Tracking</span>
+                </div>
+            </div>
+        </div>
+        <div class="visual-gradient-blob"></div>
+    </div>
+
+    <div class="login-form-side">
+        <div class="login-form-wrap">
+            <div class="login-form-header">
+                <h1>Create your account</h1>
+                <p class="text-muted">Get started with ConstructFlow</p>
+            </div>
+
+            @if (isSuccess)
+            {
+                <div class="alert-success">
+                    Account created successfully. Redirecting to login...
+                </div>
+            }
+            else
+            {
+                <EditForm Model="@registerModel" OnValidSubmit="HandleRegister" class="auth-form">
+                    <DataAnnotationsValidator />
+
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert-error">@errorMessage</div>
+                    }
+
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <InputText id="fullName" @bind-Value="registerModel.FullName" class="form-control" placeholder="John Doe" autocomplete="name" />
+                        <ValidationMessage For="@(() => registerModel.FullName)" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <InputText id="email" @bind-Value="registerModel.Email" class="form-control" placeholder="you@example.com" autocomplete="username" />
+                        <ValidationMessage For="@(() => registerModel.Email)" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <InputText id="password" type="password" @bind-Value="registerModel.Password" class="form-control" placeholder="At least 8 characters" autocomplete="new-password" />
+                        <ValidationMessage For="@(() => registerModel.Password)" />
+                        <span class="field-hint">Must include an uppercase letter and a number</span>
+                    </div>
+
+                    <button type="submit" class="btn-primary" disabled="@isLoading">
+                        @if (isLoading)
+                        {
+                            <span class="spinner"></span>
+                            <span>Creating account...</span>
+                        }
+                        else
+                        {
+                            <span>Create Account</span>
+                        }
+                    </button>
+                </EditForm>
+            }
+
+            <p class="auth-footer">
+                Already have an account? <a href="/login">Sign in</a>
+            </p>
+        </div>
+    </div>
+</div>

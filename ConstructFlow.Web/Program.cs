@@ -21,12 +21,14 @@ builder.Services.AddScoped<JwtAuthenticationStateProvider>(sp =>
 builder.Services.AddAuthorizationCore();
 
 builder.Services.AddTransient<AuthHeaderHandler>();
+builder.Services.AddTransient<UnauthorizedResponseHandler>();
 
 builder.Services.AddHttpClient("ConstructFlowAPI", client =>
 {
     client.BaseAddress = new Uri(apiBaseUrl);
 })
-.AddHttpMessageHandler<AuthHeaderHandler>();
+.AddHttpMessageHandler<AuthHeaderHandler>()
+.AddHttpMessageHandler<UnauthorizedResponseHandler>();
 
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("ConstructFlowAPI"));
 
