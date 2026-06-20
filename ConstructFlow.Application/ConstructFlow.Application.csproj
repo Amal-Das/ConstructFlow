@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="PurchaseRequests\Queries\GetPurchaseRequestById\" />
     <Folder Include="PurchaseRequests\Queries\GetPurchaseRequestsByProject\" />
   </ItemGroup>
 

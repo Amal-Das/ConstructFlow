@@ -1,0 +1,132 @@
+﻿@page "/purchase-requests/{Id:int}/comparison"
+@attribute [Authorize]
+
+<PageTitle>Quote Comparison - ConstructFlow</PageTitle>
+
+<div class="page-container">
+    @if (isLoading)
+    {
+        <p class="text-muted">Loading comparison data...</p>
+    }
+    else if (purchaseRequest is null)
+    {
+        <p class="text-muted">Purchase request not found.</p>
+    }
+    else
+    {
+        <div class="page-header">
+            <h1>@purchaseRequest.RequestNumber</h1>
+            <p class="text-muted">@purchaseRequest.ProjectName · Requested by @purchaseRequest.RequestedBy</p>
+        </div>
+
+        <div class="section-card">
+            <div class="section-header-row">
+                <h3>Submit a Vendor Quote</h3>
+            </div>
+
+            <div class="quote-form-row">
+                <select class="form-control" @bind="selectedVendorId">
+                    <option value="0">-- Select vendor --</option>
+                    @foreach (var vendor in vendors)
+                    {
+                        <option value="@vendor.Id">@vendor.Name</option>
+                    }
+                </select>
+                <button class="btn-primary btn-sm" @onclick="OpenQuoteForm" disabled="@(selectedVendorId == 0)">
+                    Price This Vendor
+                </button>
+            </div>
+
+            @if (showQuoteForm && selectedVendorId != 0)
+            {
+                <div class="quote-pricing-grid">
+                    @foreach (var item in comparisonData!.ItemRows)
+                    {
+                        <div class="pricing-row">
+                            <span class="pricing-item-name">@item.ItemName <span class="text-muted">(@item.Quantity)</span></span>
+                            <input type="number" class="form-control pricing-input" placeholder="Unit price"
+                                   @oninput="(e) => SetPrice(item.PurchaseRequestItemId, e.Value)" />
+                        </div>
+                    }
+                </div>
+
+                <div class="form-actions form-actions-left">
+                    <button class="btn-secondary" @onclick="CancelQuoteForm">Cancel</button>
+                    <button class="btn-primary btn-sm" @onclick="SubmitQuote" disabled="@isSubmittingQuote">
+                        @(isSubmittingQuote ? "Submitting..." : "Submit Quote")
+                    </button>
+                </div>
+
+                @if (!string.IsNullOrEmpty(quoteError))
+                {
+                    <div class="alert-error">@quoteError</div>
+                }
+            }
+        </div>
+
+        @if (comparisonData is not null && comparisonData.VendorSummaries.Count > 0)
+        {
+            <div class="section-card">
+                <div class="section-header-row">
+                    <h3>Comparison</h3>
+                </div>
+
+                <div class="table-card">
+                    <table class="data-table comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                @foreach (var vendor in comparisonData.VendorSummaries)
+                                {
+                                    <th>@vendor.VendorName</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in comparisonData.ItemRows)
+                            {
+                                <tr>
+                                    <td class="cell-bold">@item.ItemName</td>
+                                    <td>@item.Quantity</td>
+                                    @foreach (var vendor in comparisonData.VendorSummaries)
+                                    {
+                                        var cell = item.VendorPrices.FirstOrDefault(p => p.VendorId == vendor.VendorId);
+                                        <td class="cell-mono">
+                                            @(cell is not null ? cell.TotalPrice.ToString("C0") : "—")
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="2">Total</td>
+                                @foreach (var vendor in comparisonData.VendorSummaries)
+                                {
+                                    <td class="cell-mono cell-bold">@vendor.TotalAmount.ToString("C0")</td>
+                                }
+                            </tr>
+                            <tr>
+                                <td colspan="2"></td>
+                                @foreach (var vendor in comparisonData.VendorSummaries)
+                                {
+                                    <td>
+                                        @if (vendor.IsAwarded)
+                                        {
+                                            <span class="badge badge-success">Awarded</span>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn-link" @onclick="() => AwardVendor(vendor.VendorQuoteId)">Award</button>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        }
+    }
+</div>

@@ -708,3 +708,100 @@ code {
     .btn-icon-remove:hover {
         background: #fecaca;
     }
+/* ============================================
+   SECTION CARDS (reusable content blocks)
+============================================ */
+.section-card {
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.section-header-row {
+    margin-bottom: 1.25rem;
+}
+
+    .section-header-row h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--color-text);
+    }
+
+/* ============================================
+   QUOTE SUBMISSION FORM
+============================================ */
+.quote-form-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+    .quote-form-row select {
+        max-width: 300px;
+    }
+
+.quote-pricing-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.pricing-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pricing-item-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    flex: 1;
+}
+
+.pricing-input {
+    max-width: 150px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 0.875rem;
+}
+
+.form-actions-left {
+    justify-content: flex-start;
+    border-top: none;
+    padding-top: 0;
+}
+
+/* ============================================
+   COMPARISON TABLE (extends .data-table)
+============================================ */
+.comparison-table th,
+.comparison-table td {
+    text-align: center;
+}
+
+    .comparison-table th:first-child,
+    .comparison-table td:first-child {
+        text-align: left;
+    }
+
+.comparison-table tfoot td {
+    border-top: 2px solid var(--color-border);
+    border-bottom: none;
+    padding: 0.85rem 1.25rem;
+}
+
+.total-row {
+    font-weight: 700;
+}
+
+    .total-row td {
+        background: #f8fafc;
+    }
