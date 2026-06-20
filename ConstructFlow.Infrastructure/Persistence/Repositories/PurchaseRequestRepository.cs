@@ -1,10 +1,9 @@
-﻿using System.Data;
-using ConstructFlow.Application.Common.Interfaces;
+﻿using ConstructFlow.Application.Common.Interfaces;
+using ConstructFlow.Contracts.PurchaseRequests;
 using ConstructFlow.Domain.Entities;
 using ConstructFlow.Domain.Enums;
-using ConstructFlow.Infrastructure.Persistence;
 using Dapper;
-using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace ConstructFlow.Infrastructure.Persistence.Repositories;
 
@@ -72,5 +71,36 @@ public class PurchaseRequestRepository : IPurchaseRequestRepository
     public async Task UpdateStatusAsync(int id, string status)
     {
         throw new NotImplementedException();
+    }
+    public async Task<List<PurchaseRequestListDto>> GetAllAsync()
+    {
+        using var connection = _context.CreateConnection();
+        var results = await connection.QueryAsync<PurchaseRequestListFlat>(
+            "PR.usp_GetAllPurchaseRequests",
+            commandType: CommandType.StoredProcedure);
+
+        return results.Select(r => new PurchaseRequestListDto
+        {
+            Id = r.Id,
+            ProjectId = r.ProjectId,
+            ProjectName = r.ProjectName,
+            RequestNumber = r.RequestNumber,
+            Status = ((PurchaseRequestStatus)r.Status).ToString(),
+            RequestedBy = r.RequestedBy,
+            RequestDate = r.RequestDate,
+            Remarks = r.Remarks
+        }).ToList();
+    }
+
+    private class PurchaseRequestListFlat
+    {
+        public int Id { get; set; }
+        public int ProjectId { get; set; }
+        public string ProjectName { get; set; } = string.Empty;
+        public string RequestNumber { get; set; } = string.Empty;
+        public int Status { get; set; }
+        public string RequestedBy { get; set; } = string.Empty;
+        public DateTime RequestDate { get; set; }
+        public string? Remarks { get; set; }
     }
 }

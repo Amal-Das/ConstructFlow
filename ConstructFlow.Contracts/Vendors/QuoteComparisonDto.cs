@@ -25,6 +25,7 @@ public class VendorPriceCell
 
 public class VendorQuoteSummary
 {
+    public int VendorQuoteId { get; set; }
     public int VendorId { get; set; }
     public string VendorName { get; set; } = string.Empty;
     public decimal TotalAmount { get; set; }

@@ -75,6 +75,7 @@ public class VendorQuoteRepository : IVendorQuoteRepository
                 VendorId = v.VendorId,
                 VendorName = v.VendorName,
                 TotalAmount = v.TotalAmount,
+                VendorQuoteId = v.VendorQuoteId,
                 IsAwarded = v.IsAwarded
             }).ToList(),
             ItemRows = prItems.Select(item => new QuoteComparisonItemRow

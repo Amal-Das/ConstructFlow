@@ -35,6 +35,7 @@ public class ExceptionHandlingMiddleware
         {
             NotFoundException notFoundEx => (HttpStatusCode.NotFound, notFoundEx.Message, (object?)null),
             ValidationException validationEx => (HttpStatusCode.BadRequest, "Validation failed.", (object?)validationEx.Errors),
+            BusinessRuleException businessEx => (HttpStatusCode.BadRequest, businessEx.Message, (object?)new { errorCode = businessEx.ErrorCode }),
             UnauthorizedAccessException => (HttpStatusCode.Unauthorized, "Invalid email or password.", (object?)null),
             _ => (HttpStatusCode.InternalServerError, "An unexpected error occurred.", (object?)null)
         };

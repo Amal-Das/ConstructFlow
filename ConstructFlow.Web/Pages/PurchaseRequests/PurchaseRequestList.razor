@@ -1,0 +1,60 @@
+﻿@page "/purchase-requests"
+@attribute [Authorize]
+
+<PageTitle>Purchase Requests - ConstructFlow</PageTitle>
+
+<div class="page-container">
+    <div class="page-header-row">
+        <div>
+            <h1>Purchase Requests</h1>
+            <p class="text-muted">Track requests and vendor quotes</p>
+        </div>
+        <button class="btn-primary btn-sm" @onclick="GoToCreate">+ New Request</button>
+    </div>
+
+    @if (isLoading)
+    {
+        <p class="text-muted">Loading purchase requests...</p>
+    }
+    else if (requests.Count == 0)
+    {
+        <div class="empty-state">
+            <p>No purchase requests yet.</p>
+            <button class="btn-primary btn-sm" @onclick="GoToCreate">Create your first request</button>
+        </div>
+    }
+    else
+    {
+        <div class="table-card">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Request #</th>
+                        <th>Project</th>
+                        <th>Requested By</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in requests)
+                    {
+                        <tr>
+                            <td class="cell-mono">@request.RequestNumber</td>
+                            <td class="cell-bold">@request.ProjectName</td>
+                            <td>@request.RequestedBy</td>
+                            <td>@request.RequestDate.ToString("dd MMM yyyy")</td>
+                            <td>
+                                <span class="badge badge-@GetStatusClass(request.Status)">@FormatStatus(request.Status)</span>
+                            </td>
+                            <td class="cell-actions">
+                                <button class="btn-link" @onclick="() => ViewComparison(request.Id)">Quotes & Comparison</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

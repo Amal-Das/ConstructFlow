@@ -76,8 +76,15 @@ public class InventoryRepository : IInventoryRepository
         var returnStatus = parameters.Get<string>("ReturnStatus");
         if (returnStatus != "SUCCESS")
         {
-            var errorCode = parameters.Get<string>("ErrorCode");
-            throw new InvalidOperationException($"Failed to record transaction: {errorCode}");
+            var errorCode = parameters.Get<string>("ErrorCode") ?? "UNKNOWN_ERROR";
+            var message = errorCode switch
+            {
+                "INSUFFICIENT_STOCK" => "Not enough stock available for this transaction.",
+                "ITEM_NOT_FOUND" => "Inventory item not found.",
+                _ => "Failed to record stock transaction."
+            };
+
+            throw new ConstructFlow.Application.Common.Exceptions.BusinessRuleException(errorCode, message);
         }
     }
 }
