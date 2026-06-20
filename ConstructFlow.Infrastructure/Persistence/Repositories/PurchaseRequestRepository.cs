@@ -50,8 +50,9 @@ public class PurchaseRequestRepository : IPurchaseRequestRepository
         var returnStatus = parameters.Get<string>("ReturnStatus");
         if (returnStatus != "SUCCESS")
         {
-            var errorCode = parameters.Get<string>("ErrorCode");
-            throw new InvalidOperationException($"Failed to create purchase request: {errorCode}");
+            var errorCode = parameters.Get<string>("ErrorCode") ?? "UNKNOWN_ERROR";
+            throw new ConstructFlow.Application.Common.Exceptions.BusinessRuleException(
+                errorCode, "Failed to create purchase request. Please check your input and try again.");
         }
 
         return parameters.Get<int>("NewId");

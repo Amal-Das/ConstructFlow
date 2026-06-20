@@ -45,8 +45,9 @@ public class VendorQuoteRepository : IVendorQuoteRepository
         var returnStatus = parameters.Get<string>("ReturnStatus");
         if (returnStatus != "SUCCESS")
         {
-            var errorCode = parameters.Get<string>("ErrorCode");
-            throw new InvalidOperationException($"Failed to submit quote: {errorCode}");
+            var errorCode = parameters.Get<string>("ErrorCode") ?? "UNKNOWN_ERROR";
+            throw new ConstructFlow.Application.Common.Exceptions.BusinessRuleException(
+                errorCode, "Failed to submit vendor quote. Please check the entered prices and try again.");
         }
 
         return parameters.Get<int>("NewId");
@@ -114,8 +115,12 @@ public class VendorQuoteRepository : IVendorQuoteRepository
         var returnStatus = parameters.Get<string>("ReturnStatus");
         if (returnStatus != "SUCCESS")
         {
-            var errorCode = parameters.Get<string>("ErrorCode");
-            throw new InvalidOperationException($"Failed to award quote: {errorCode}");
+            var errorCode = parameters.Get<string>("ErrorCode") ?? "UNKNOWN_ERROR";
+            var message = errorCode == "QUOTE_NOT_FOUND"
+                ? "The selected quote could not be found for this purchase request."
+                : "Failed to award the quote.";
+
+            throw new ConstructFlow.Application.Common.Exceptions.BusinessRuleException(errorCode, message);
         }
     }
 
