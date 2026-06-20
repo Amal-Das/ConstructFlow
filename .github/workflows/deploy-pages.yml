@@ -30,7 +30,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Publish Blazor app
-        run: dotnet publish client/ConstructFlow.Web/ConstructFlow.Web.csproj -c Release -o publish-output
+        run: dotnet publish ConstructFlow.Web/ConstructFlow.Web.csproj -c Release -o publish-output
 
       - name: Add .nojekyll file
         run: touch publish-output/wwwroot/.nojekyll
