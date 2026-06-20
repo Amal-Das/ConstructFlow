@@ -1,68 +1,194 @@
 ﻿@page "/"
 @attribute [Authorize]
-@inject HttpClient Http
 
 <PageTitle>Dashboard - ConstructFlow</PageTitle>
 
 <div class="page-container">
-    <div class="page-header">
+    <div class="dashboard-header">
         <div>
-            <h1 class="page-title">Dashboard</h1>
-            <p class="page-subtitle">Overview of your construction projects</p>
+            <p class="dashboard-greeting">@GetGreeting()</p>
+            <h1>Dashboard</h1>
         </div>
     </div>
 
     @if (isLoading)
     {
-        <div class="loading-state">
-            <div class="spinner-lg"></div>
-        </div>
+        <p class="text-muted">Loading dashboard data...</p>
     }
     else
     {
         <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon stat-icon-blue">📁</div>
-                <div class="stat-value">@projectCount</div>
-                <div class="stat-label">Active Projects</div>
+            <div class="stat-card stat-card-accent-blue">
+                <div class="stat-icon-wrap stat-icon-blue">▢</div>
+                <div class="stat-body">
+                    <span class="stat-value">@projectCount</span>
+                    <span class="stat-label">Active Projects</span>
+                </div>
             </div>
 
-            <div class="stat-card">
-                <div class="stat-icon stat-icon-amber">📋</div>
-                <div class="stat-value">@pendingRequestCount</div>
-                <div class="stat-label">Pending Requests</div>
+            <div class="stat-card stat-card-accent-amber">
+                <div class="stat-icon-wrap stat-icon-amber">▤</div>
+                <div class="stat-body">
+                    <span class="stat-value">@pendingRequestCount</span>
+                    <span class="stat-label">Pending Requests</span>
+                </div>
             </div>
 
-            <div class="stat-card">
-                <div class="stat-icon stat-icon-green">🏢</div>
-                <div class="stat-value">@vendorCount</div>
-                <div class="stat-label">Active Vendors</div>
+            <div class="stat-card stat-card-accent-purple">
+                <div class="stat-icon-wrap stat-icon-purple">◈</div>
+                <div class="stat-body">
+                    <span class="stat-value">@vendorCount</span>
+                    <span class="stat-label">Registered Vendors</span>
+                </div>
             </div>
 
-            <div class="stat-card">
-                <div class="stat-icon stat-icon-red">⚠️</div>
-                <div class="stat-value">@lowStockCount</div>
-                <div class="stat-label">Low Stock Items</div>
+            <div class="stat-card stat-card-accent-red">
+                <div class="stat-icon-wrap stat-icon-red">▣</div>
+                <div class="stat-body">
+                    <span class="stat-value">@lowStockCount</span>
+                    <span class="stat-label">Low Stock Items</span>
+                </div>
             </div>
         </div>
 
-        <div class="quick-links">
-            <a href="/projects" class="quick-link-card">
-                <span class="quick-link-title">Manage Projects</span>
-                <span class="quick-link-arrow">→</span>
-            </a>
-            <a href="/purchase-requests" class="quick-link-card">
-                <span class="quick-link-title">Purchase Requests</span>
-                <span class="quick-link-arrow">→</span>
-            </a>
-            <a href="/vendors" class="quick-link-card">
-                <span class="quick-link-title">Vendors</span>
-                <span class="quick-link-arrow">→</span>
-            </a>
-            <a href="/inventory" class="quick-link-card">
-                <span class="quick-link-title">Inventory</span>
-                <span class="quick-link-arrow">→</span>
-            </a>
+        <div class="dashboard-panels-3col">
+            <div class="section-card panel-recent">
+                <div class="section-header-row">
+                    <h3>Recent Projects</h3>
+                    <a href="/projects" class="btn-link">View all</a>
+                </div>
+
+                @if (recentProjects.Count == 0)
+                {
+                    <p class="text-muted">No projects yet.</p>
+                }
+                else
+                {
+                    <div class="recent-list">
+                        @foreach (var project in recentProjects)
+                        {
+                            <div class="recent-list-item">
+                                <div class="recent-item-main">
+                                    <span class="cell-bold">@project.Name</span>
+                                    <span class="text-muted">@project.Location</span>
+                                </div>
+                                <span class="badge badge-@GetStatusClass(project.Status)">@project.Status</span>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="section-card panel-chart">
+                <div class="section-header-row">
+                    <h3>Project Status Breakdown</h3>
+                </div>
+
+                @if (statusBreakdown.Count == 0)
+                {
+                    <p class="text-muted">No data yet.</p>
+                }
+                else
+                {
+                    <div class="donut-chart-wrap">
+                        <svg viewBox="0 0 120 120" class="donut-chart">
+                            @{
+                                double cumulativePercent = 0;
+                            }
+                            @foreach (var slice in statusBreakdown)
+                            {
+                                var startAngle = cumulativePercent * 360;
+                                cumulativePercent += slice.Percent;
+                                var endAngle = cumulativePercent * 360;
+                                <circle cx="60" cy="60" r="45"
+                                        fill="transparent"
+                                        stroke="@slice.Color"
+                                        stroke-width="18"
+                                        stroke-dasharray="@GetDashArray(slice.Percent)"
+                                        stroke-dashoffset="@GetDashOffset(cumulativePercent - slice.Percent)"
+                                        transform="rotate(-90 60 60)" />
+                            }
+                        </svg>
+                        <div class="donut-center">
+                            <span class="donut-total">@statusBreakdown.Sum(s => s.Count)</span>
+                            <span class="donut-total-label">Total</span>
+                        </div>
+                    </div>
+
+                    <div class="chart-legend">
+                        @foreach (var slice in statusBreakdown)
+                        {
+                            <div class="legend-item">
+                                <span class="legend-dot" style="background:@slice.Color"></span>
+                                <span class="legend-label">@slice.Status</span>
+                                <span class="legend-count">@slice.Count</span>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="section-card panel-actions">
+                <div class="section-header-row">
+                    <h3>Quick Actions</h3>
+                </div>
+                <div class="quick-actions">
+                    <a href="/projects/create" class="quick-action">
+                        <span class="quick-action-icon">▢</span>
+                        <span>New Project</span>
+                    </a>
+                    <a href="/purchase-requests/create" class="quick-action">
+                        <span class="quick-action-icon">▤</span>
+                        <span>New Purchase Request</span>
+                    </a>
+                    <a href="/vendors/create" class="quick-action">
+                        <span class="quick-action-icon">◈</span>
+                        <span>Add Vendor</span>
+                    </a>
+                    <a href="/inventory" class="quick-action">
+                        <span class="quick-action-icon">▣</span>
+                        <span>Manage Inventory</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card panel-vendors-wide">
+            <div class="section-header-row">
+                <h3>Vendor Activity</h3>
+                <a href="/vendors" class="btn-link">View all</a>
+            </div>
+
+            @if (vendors.Count == 0)
+            {
+                <p class="text-muted">No vendors registered yet.</p>
+            }
+            else
+            {
+                <div class="table-card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Vendor</th>
+                                <th>Contact</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var vendor in vendors.Take(5))
+                            {
+                                <tr>
+                                    <td class="cell-bold">@vendor.Name</td>
+                                    <td>@vendor.ContactPerson</td>
+                                    <td class="text-muted">@vendor.Email</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
         </div>
     }
 </div>

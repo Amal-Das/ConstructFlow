@@ -1,16 +1,59 @@
 ﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+@attribute [Authorize]
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-mark">CF</span>
+            <span class="brand-name">ConstructFlow</span>
         </div>
 
-        <article class="content px-4">
+        <nav class="sidebar-nav">
+            <NavLink href="/" class="nav-item" Match="NavLinkMatch.All">
+                <span class="nav-icon">▦</span> Dashboard
+            </NavLink>
+            <NavLink href="/projects" class="nav-item">
+                <span class="nav-icon">▢</span> Projects
+            </NavLink>
+            <NavLink href="/vendors" class="nav-item">
+                <span class="nav-icon">◈</span> Vendors
+            </NavLink>
+            <NavLink href="/purchase-requests" class="nav-item">
+                <span class="nav-icon">▤</span> Purchase Requests
+            </NavLink>
+            <NavLink href="/inventory" class="nav-item">
+                <span class="nav-icon">▣</span> Inventory
+            </NavLink>
+        </nav>
+
+        <div class="sidebar-user">
+            <div class="user-avatar">@GetInitial()</div>
+            <div class="user-info">
+                <span class="user-name">@userName</span>
+                <span class="user-role">@userRole</span>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="logout-btn" @onclick="HandleLogout">
+                <span class="nav-icon">⏻</span> Sign Out
+            </button>
+        </div>
+    </aside>
+
+    <div class="content-area">
+        <header class="topbar">
+            <div class="topbar-search">
+                <span class="search-icon">⌕</span>
+                <input type="text" placeholder="Search projects, vendors, requests..." />
+            </div>
+            <div class="topbar-actions">
+                <span class="topbar-date">@DateTime.Now.ToString("dddd, dd MMMM yyyy")</span>
+            </div>
+        </header>
+
+        <main class="main-content">
             @Body
-        </article>
-    </main>
+        </main>
+    </div>
 </div>

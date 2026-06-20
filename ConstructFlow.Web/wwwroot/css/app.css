@@ -124,22 +124,135 @@ code {
 /* ============================================
    LOGIN / AUTH PAGE
 ============================================ */
-.auth-page {
+/* ============================================
+   LOGIN — SPLIT SCREEN LAYOUT
+============================================ */
+.auth-shell {
     min-height: 100vh;
+}
+
+.login-split {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* LEFT: Visual/branding panel */
+.login-visual {
+    flex: 1.1;
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 45%, #2563eb 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 4rem 3.5rem;
+    overflow: hidden;
+    color: white;
+}
+
+.login-visual-content {
+    position: relative;
+    z-index: 2;
+    max-width: 480px;
+}
+
+.visual-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 3.5rem;
+}
+
+.brand-mark-lg {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(4px);
+    font-size: 1rem;
+}
+
+.brand-name-lg {
+    font-size: 1.25rem;
+    color: white;
+}
+
+.visual-headline {
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+}
+
+.visual-subtext {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    max-width: 400px;
+}
+
+.visual-stats {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.visual-stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.visual-stat-number {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.visual-stat-label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.65);
+    margin-top: 0.25rem;
+}
+
+/* Decorative blurred shape — purely visual flair */
+.visual-gradient-blob {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -150px;
+    right: -150px;
+    z-index: 1;
+}
+
+/* RIGHT: Form panel */
+.login-form-side {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-bg);
-    padding: 1rem;
+    background: var(--color-surface);
+    padding: 2rem;
 }
 
-.auth-card {
-    background: var(--color-surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 2.5rem;
+.login-form-wrap {
     width: 100%;
-    max-width: 400px;
+    max-width: 380px;
+}
+
+.login-form-header {
+    margin-bottom: 2rem;
+}
+
+    .login-form-header h1 {
+        font-size: 1.85rem;
+        font-weight: 700;
+        color: var(--color-text);
+        margin-bottom: 0.4rem;
+    }
+
+/* Collapse to single column on smaller screens */
+@media (max-width: 900px) {
+    .login-visual {
+        display: none;
+    }
 }
 
 .auth-header {
@@ -844,4 +957,499 @@ code {
 .filter-group {
     max-width: 350px;
     margin-bottom: 1.5rem;
+}
+/* ============================================
+   APP SHELL — Sidebar + Main Content Layout
+============================================ */
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 240px;
+    background: #0f172a; /* dark slate, contrasts with light content area */
+    color: #cbd5e1;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    background: var(--color-bg);
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+/* ============================================
+   SIDEBAR BRAND
+============================================ */
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.5rem 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.brand-mark {
+    background: var(--color-primary);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.brand-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: white;
+}
+
+/* ============================================
+   SIDEBAR NAVIGATION
+============================================ */
+.sidebar-nav {
+    flex: 1;
+    padding: 1rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.9rem;
+    border-radius: 8px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+    .nav-item:hover {
+        background: rgba(255,255,255,0.06);
+        color: white;
+    }
+
+    .nav-item.active {
+        background: var(--color-primary);
+        color: white;
+    }
+
+.nav-icon {
+    font-size: 0.95rem;
+    width: 18px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   SIDEBAR FOOTER (logout)
+============================================ */
+.sidebar-footer {
+    padding: 0.75rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+    .logout-btn:hover {
+        background: rgba(255,255,255,0.06);
+        color: white;
+    }
+/* ============================================
+   DASHBOARD HEADER
+============================================ */
+.dashboard-header {
+    margin-bottom: 2rem;
+}
+
+.dashboard-greeting {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.dashboard-header h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+/* ============================================
+   STAT CARDS — with icon + colored accents
+============================================ */
+.stat-card {
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-left: 3px solid transparent;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+.stat-card-accent-blue {
+    border-left-color: #2563eb;
+}
+
+.stat-card-accent-amber {
+    border-left-color: #d97706;
+}
+
+.stat-card-accent-purple {
+    border-left-color: #7c3aed;
+}
+
+.stat-card-accent-red {
+    border-left-color: #dc2626;
+}
+
+.stat-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.stat-icon-blue {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.stat-icon-amber {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.stat-icon-purple {
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+.stat-icon-red {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.stat-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.1;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    margin-top: 0.15rem;
+}
+
+/* ============================================
+   DASHBOARD PANELS (recent activity + quick actions)
+============================================ */
+.dashboard-panels {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.recent-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.recent-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+    .recent-list-item:last-child {
+        border-bottom: none;
+    }
+
+.recent-item-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+    .recent-item-main .text-muted {
+        font-size: 0.8rem;
+    }
+
+/* ============================================
+   QUICK ACTIONS
+============================================ */
+.quick-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.quick-action {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background 0.15s ease;
+}
+
+    .quick-action:hover {
+        background: #f1f5f9;
+    }
+
+.quick-action-icon {
+    font-size: 1rem;
+    color: var(--color-primary);
+}
+
+/* Responsive: stack dashboard panels on narrower viewports */
+@media (max-width: 1024px) {
+    .dashboard-panels {
+        grid-template-columns: 1fr;
+    }
+}
+/* ============================================
+   CONTENT AREA WRAPPER (sidebar sibling)
+============================================ */
+.content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ============================================
+   TOPBAR
+============================================ */
+.topbar {
+    height: 64px;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    flex-shrink: 0;
+}
+
+.topbar-search {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.5rem 0.9rem;
+    width: 340px;
+}
+
+    .topbar-search input {
+        border: none;
+        background: none;
+        outline: none;
+        font-size: 0.875rem;
+        width: 100%;
+        color: var(--color-text);
+    }
+
+.search-icon {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+}
+
+.topbar-date {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+/* ============================================
+   SIDEBAR USER SECTION
+============================================ */
+.sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.9rem 1.25rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.user-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-role {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+/* ============================================
+   DASHBOARD — 3 COLUMN PANEL LAYOUT
+============================================ */
+.dashboard-panels-3col {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 0.9fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.panel-vendors-wide {
+    margin-top: 0;
+}
+
+/* ============================================
+   DONUT CHART
+============================================ */
+.donut-chart-wrap {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 1.25rem;
+}
+
+.donut-chart {
+    width: 100%;
+    height: 100%;
+}
+
+.donut-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.donut-total {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.donut-total-label {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.chart-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.825rem;
+}
+
+.legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legend-label {
+    flex: 1;
+    color: var(--color-text);
+}
+
+.legend-count {
+    font-weight: 700;
+    color: var(--color-text-muted);
+}
+
+/* Responsive: stack 3-column dashboard panels on narrower viewports */
+@media (max-width: 1200px) {
+    .dashboard-panels-3col {
+        grid-template-columns: 1fr;
+    }
 }

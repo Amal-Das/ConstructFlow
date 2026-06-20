@@ -1,55 +1,79 @@
 ﻿@page "/login"
+@layout AuthLayout
 @using ConstructFlow.Web.Auth
 @inject HttpClient Http
 @inject JwtAuthenticationStateProvider AuthStateProvider
 @inject NavigationManager Navigation
 
-<PageTitle>Login - ConstructFlow</PageTitle>
+<PageTitle>Sign In - ConstructFlow</PageTitle>
 
-<div class="auth-page">
-    <div class="auth-card">
-        <div class="auth-header">
-            <h1 class="auth-title">ConstructFlow</h1>
-            <p class="auth-subtitle">Sign in to manage your projects</p>
-        </div>
+<div class="login-split">
+    <div class="login-visual">
+        <div class="login-visual-content">
+            <div class="visual-brand">
+                <span class="brand-mark brand-mark-lg">CF</span>
+                <span class="brand-name brand-name-lg">ConstructFlow</span>
+            </div>
+            <h2 class="visual-headline">Manage every project,<br />from ground to handover.</h2>
+            <p class="visual-subtext">Track budgets, compare vendor quotes, and keep material stock under control — all in one place.</p>
 
-        <EditForm Model="@loginModel" OnValidSubmit="HandleLogin" class="auth-form">
-            <DataAnnotationsValidator />
-
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <div class="alert-error">
-                    @errorMessage
+            <div class="visual-stats">
+                <div class="visual-stat">
+                    <span class="visual-stat-number">4</span>
+                    <span class="visual-stat-label">Core Modules</span>
                 </div>
-            }
+                <div class="visual-stat">
+                    <span class="visual-stat-number">100%</span>
+                    <span class="visual-stat-label">Real-time Tracking</span>
+                </div>
+            </div>
+        </div>
+        <div class="visual-gradient-blob"></div>
+    </div>
 
-            <div class="form-group">
-                <label for="email">Email</label>
-                <InputText id="email" @bind-Value="loginModel.Email" class="form-control" placeholder="you@example.com" />
-                <ValidationMessage For="@(() => loginModel.Email)" />
+    <div class="login-form-side">
+        <div class="login-form-wrap">
+            <div class="login-form-header">
+                <h1>Welcome back</h1>
+                <p class="text-muted">Sign in to continue to your dashboard</p>
             </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <InputText id="password" type="password" @bind-Value="loginModel.Password" class="form-control" placeholder="••••••••" />
-                <ValidationMessage For="@(() => loginModel.Password)" />
-            </div>
+            <EditForm Model="@loginModel" OnValidSubmit="HandleLogin" class="auth-form">
+                <DataAnnotationsValidator />
 
-            <button type="submit" class="btn-primary" disabled="@isLoading">
-                @if (isLoading)
+                @if (!string.IsNullOrEmpty(errorMessage))
                 {
-                    <span class="spinner"></span>
-                    <span>Signing in...</span>
+                    <div class="alert-error">@errorMessage</div>
                 }
-                else
-                {
-                    <span>Sign In</span>
-                }
-            </button>
-        </EditForm>
 
-        <p class="auth-footer">
-            Don't have an account? <a href="/register">Create one</a>
-        </p>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <InputText id="email" @bind-Value="loginModel.Email" class="form-control" placeholder="you@example.com" autocomplete="username" />
+                    <ValidationMessage For="@(() => loginModel.Email)" />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <InputText id="password" type="password" @bind-Value="loginModel.Password" class="form-control" placeholder="••••••••" autocomplete="current-password" />
+                    <ValidationMessage For="@(() => loginModel.Password)" />
+                </div>
+
+                <button type="submit" class="btn-primary" disabled="@isLoading">
+                    @if (isLoading)
+                    {
+                        <span class="spinner"></span>
+                        <span>Signing in...</span>
+                    }
+                    else
+                    {
+                        <span>Sign In</span>
+                    }
+                </button>
+            </EditForm>
+
+            <p class="auth-footer">
+                Don't have an account? <a href="/register">Create one</a>
+            </p>
+        </div>
     </div>
 </div>
