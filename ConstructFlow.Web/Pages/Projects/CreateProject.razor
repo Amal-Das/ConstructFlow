@@ -1,0 +1,63 @@
+﻿@page "/projects/create"
+@attribute [Authorize]
+
+<PageTitle>New Project - ConstructFlow</PageTitle>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1>New Project</h1>
+        <p class="text-muted">Create a new construction project</p>
+    </div>
+
+    <div class="form-card">
+        <EditForm Model="@model" OnValidSubmit="HandleCreate">
+            <DataAnnotationsValidator />
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert-error">@errorMessage</div>
+            }
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Project Name</label>
+                    <InputText @bind-Value="model.Name" class="form-control" placeholder="e.g. Riverside Tower" />
+                    <ValidationMessage For="@(() => model.Name)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Project Code</label>
+                    <InputText @bind-Value="model.Code" class="form-control" placeholder="e.g. PRJ-001" />
+                    <ValidationMessage For="@(() => model.Code)" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Location</label>
+                <InputText @bind-Value="model.Location" class="form-control" placeholder="e.g. Kochi, Kerala" />
+                <ValidationMessage For="@(() => model.Location)" />
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <InputDate @bind-Value="model.StartDate" class="form-control" />
+                    <ValidationMessage For="@(() => model.StartDate)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Budget (₹)</label>
+                    <InputNumber @bind-Value="model.Budget" class="form-control" placeholder="0" />
+                    <ValidationMessage For="@(() => model.Budget)" />
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" @onclick="GoBack">Cancel</button>
+                <button type="submit" class="btn-primary btn-sm" disabled="@isSubmitting">
+                    @(isSubmitting ? "Creating..." : "Create Project")
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>

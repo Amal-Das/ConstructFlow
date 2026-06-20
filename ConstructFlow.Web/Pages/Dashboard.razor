@@ -1,0 +1,68 @@
+﻿@page "/"
+@attribute [Authorize]
+@inject HttpClient Http
+
+<PageTitle>Dashboard - ConstructFlow</PageTitle>
+
+<div class="page-container">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Dashboard</h1>
+            <p class="page-subtitle">Overview of your construction projects</p>
+        </div>
+    </div>
+
+    @if (isLoading)
+    {
+        <div class="loading-state">
+            <div class="spinner-lg"></div>
+        </div>
+    }
+    else
+    {
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-blue">📁</div>
+                <div class="stat-value">@projectCount</div>
+                <div class="stat-label">Active Projects</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-amber">📋</div>
+                <div class="stat-value">@pendingRequestCount</div>
+                <div class="stat-label">Pending Requests</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-green">🏢</div>
+                <div class="stat-value">@vendorCount</div>
+                <div class="stat-label">Active Vendors</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-red">⚠️</div>
+                <div class="stat-value">@lowStockCount</div>
+                <div class="stat-label">Low Stock Items</div>
+            </div>
+        </div>
+
+        <div class="quick-links">
+            <a href="/projects" class="quick-link-card">
+                <span class="quick-link-title">Manage Projects</span>
+                <span class="quick-link-arrow">→</span>
+            </a>
+            <a href="/purchase-requests" class="quick-link-card">
+                <span class="quick-link-title">Purchase Requests</span>
+                <span class="quick-link-arrow">→</span>
+            </a>
+            <a href="/vendors" class="quick-link-card">
+                <span class="quick-link-title">Vendors</span>
+                <span class="quick-link-arrow">→</span>
+            </a>
+            <a href="/inventory" class="quick-link-card">
+                <span class="quick-link-title">Inventory</span>
+                <span class="quick-link-arrow">→</span>
+            </a>
+        </div>
+    }
+</div>

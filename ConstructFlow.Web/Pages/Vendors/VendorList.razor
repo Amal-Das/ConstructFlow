@@ -1,0 +1,58 @@
+﻿@page "/vendors"
+@attribute [Authorize]
+
+<PageTitle>Vendors - ConstructFlow</PageTitle>
+
+<div class="page-container">
+    <div class="page-header-row">
+        <div>
+            <h1>Vendors</h1>
+            <p class="text-muted">Manage your supplier and contractor list</p>
+        </div>
+        <button class="btn-primary btn-sm" @onclick="GoToCreate">+ New Vendor</button>
+    </div>
+
+    @if (isLoading)
+    {
+        <p class="text-muted">Loading vendors...</p>
+    }
+    else if (vendors.Count == 0)
+    {
+        <div class="empty-state">
+            <p>No vendors yet.</p>
+            <button class="btn-primary btn-sm" @onclick="GoToCreate">Add your first vendor</button>
+        </div>
+    }
+    else
+    {
+        <div class="table-card">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Contact Person</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var vendor in vendors)
+                    {
+                        <tr>
+                            <td class="cell-bold">@vendor.Name</td>
+                            <td>@vendor.ContactPerson</td>
+                            <td>@vendor.Email</td>
+                            <td class="cell-mono">@vendor.Phone</td>
+                            <td>
+                                <span class="badge badge-@(vendor.IsActive ? "success" : "neutral")">
+                                    @(vendor.IsActive ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

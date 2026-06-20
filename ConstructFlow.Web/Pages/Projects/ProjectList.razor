@@ -1,0 +1,62 @@
+﻿@page "/projects"
+@attribute [Authorize]
+
+<PageTitle>Projects - ConstructFlow</PageTitle>
+
+<div class="page-container">
+    <div class="page-header-row">
+        <div>
+            <h1>Projects</h1>
+            <p class="text-muted">Manage your construction projects</p>
+        </div>
+        <button class="btn-primary btn-sm" @onclick="GoToCreate">+ New Project</button>
+    </div>
+
+    @if (isLoading)
+    {
+        <p class="text-muted">Loading projects...</p>
+    }
+    else if (projects.Count == 0)
+    {
+        <div class="empty-state">
+            <p>No projects yet.</p>
+            <button class="btn-primary btn-sm" @onclick="GoToCreate">Create your first project</button>
+        </div>
+    }
+    else
+    {
+        <div class="table-card">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Start Date</th>
+                        <th>Budget</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var project in projects)
+                    {
+                        <tr>
+                            <td class="cell-mono">@project.Code</td>
+                            <td class="cell-bold">@project.Name</td>
+                            <td>@project.Location</td>
+                            <td>
+                                <span class="badge badge-@GetStatusClass(project.Status)">@project.Status</span>
+                            </td>
+                            <td>@project.StartDate.ToString("dd MMM yyyy")</td>
+                            <td class="cell-mono">@project.Budget.ToString("C0")</td>
+                            <td class="cell-actions">
+                                <button class="btn-link" @onclick="() => ViewProject(project.Id)">View</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

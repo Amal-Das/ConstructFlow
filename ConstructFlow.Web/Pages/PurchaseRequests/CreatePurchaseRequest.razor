@@ -1,0 +1,100 @@
+﻿@page "/purchase-requests/create"
+@attribute [Authorize]
+
+<PageTitle>New Purchase Request - ConstructFlow</PageTitle>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1>New Purchase Request</h1>
+        <p class="text-muted">Request materials or services for a project</p>
+    </div>
+
+    <div class="form-card form-card-wide">
+        <EditForm Model="@model" OnValidSubmit="HandleCreate">
+            <DataAnnotationsValidator />
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert-error">@errorMessage</div>
+            }
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Project</label>
+                    <InputSelect @bind-Value="model.ProjectId" class="form-control">
+                        <option value="0">-- Select a project --</option>
+                        @foreach (var project in projects)
+                        {
+                            <option value="@project.Id">@project.Name (@project.Code)</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(() => model.ProjectId)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Requested By</label>
+                    <InputText @bind-Value="model.RequestedBy" class="form-control" placeholder="Your name" />
+                    <ValidationMessage For="@(() => model.RequestedBy)" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Remarks (optional)</label>
+                <InputText @bind-Value="model.Remarks" class="form-control" placeholder="Any notes about this request" />
+            </div>
+
+            <hr class="form-divider" />
+
+            <div class="items-section-header">
+                <h3>Items</h3>
+                <button type="button" class="btn-link" @onclick="AddItem">+ Add Item</button>
+            </div>
+
+            @if (model.Items.Count == 0)
+            {
+                <p class="text-muted">No items added yet. Click "+ Add Item" to start.</p>
+            }
+            else
+            {
+                <div class="item-rows">
+                    @for (int i = 0; i < model.Items.Count; i++)
+                    {
+                        var index = i; // local copy for closure capture
+                        var item = model.Items[index];
+
+                        <div class="item-row">
+                            <div class="item-row-field item-name-field">
+                                <input class="form-control" placeholder="Item name"
+                                       value="@item.ItemName"
+                                       @oninput="(e) => item.ItemName = e.Value?.ToString() ?? string.Empty" />
+                            </div>
+                            <div class="item-row-field item-unit-field">
+                                <input class="form-control" placeholder="Unit"
+                                       value="@item.Unit"
+                                       @oninput="(e) => item.Unit = e.Value?.ToString() ?? string.Empty" />
+                            </div>
+                            <div class="item-row-field item-qty-field">
+                                <input type="number" class="form-control" placeholder="Qty"
+                                       value="@item.Quantity"
+                                       @oninput="(e) => item.Quantity = ParseDecimal(e.Value)" />
+                            </div>
+                            <div class="item-row-field item-spec-field">
+                                <input class="form-control" placeholder="Specification (optional)"
+                                       value="@item.Specification"
+                                       @oninput="(e) => item.Specification = e.Value?.ToString()" />
+                            </div>
+                            <button type="button" class="btn-icon-remove" @onclick="() => RemoveItem(index)" title="Remove item">✕</button>
+                        </div>
+                    }
+                </div>
+            }
+
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" @onclick="GoBack">Cancel</button>
+                <button type="submit" class="btn-primary btn-sm" disabled="@isSubmitting">
+                    @(isSubmitting ? "Submitting..." : "Submit Request")
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>

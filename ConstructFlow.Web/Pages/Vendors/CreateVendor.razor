@@ -1,0 +1,62 @@
+﻿@page "/vendors/create"
+@attribute [Authorize]
+
+<PageTitle>New Vendor - ConstructFlow</PageTitle>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1>New Vendor</h1>
+        <p class="text-muted">Add a supplier or contractor</p>
+    </div>
+
+    <div class="form-card">
+        <EditForm Model="@model" OnValidSubmit="HandleCreate">
+            <DataAnnotationsValidator />
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert-error">@errorMessage</div>
+            }
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Vendor Name</label>
+                    <InputText @bind-Value="model.Name" class="form-control" placeholder="e.g. SteelWorks Pvt Ltd" />
+                    <ValidationMessage For="@(() => model.Name)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Person</label>
+                    <InputText @bind-Value="model.ContactPerson" class="form-control" placeholder="e.g. Rajesh Kumar" />
+                    <ValidationMessage For="@(() => model.ContactPerson)" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Email</label>
+                    <InputText @bind-Value="model.Email" class="form-control" placeholder="vendor@example.com" />
+                    <ValidationMessage For="@(() => model.Email)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <InputText @bind-Value="model.Phone" class="form-control" placeholder="+91 98765 43210" />
+                    <ValidationMessage For="@(() => model.Phone)" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Address (optional)</label>
+                <InputText @bind-Value="model.Address" class="form-control" placeholder="Street, City, State" />
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" @onclick="GoBack">Cancel</button>
+                <button type="submit" class="btn-primary btn-sm" disabled="@isSubmitting">
+                    @(isSubmitting ? "Creating..." : "Add Vendor")
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
