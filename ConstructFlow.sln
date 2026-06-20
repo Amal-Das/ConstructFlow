@@ -21,6 +21,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client", "client", "{597BA9
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ConstructFlow.Database", "ConstructFlow.Database\ConstructFlow.Database.sqlproj", "{2E3A4FB2-D62C-480B-9375-5B297D2FBE57}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{B3F0E5D6-E456-4C6A-B518-0DBAFDB5458F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{017FE2E4-C9A2-4223-9D54-95EBDA2094B3}"
+	ProjectSection(SolutionItems) = preProject
+		deploy-pages.yml = deploy-pages.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +75,7 @@ Global
 		{A673E60F-647D-4DE7-9D84-B826D072BEBE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{08B1AFD2-DD4B-4DDC-88C5-247EC815AE68} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{49C7A4F1-1C22-4612-9710-8B1C8BE8B512} = {597BA907-58EB-4B81-A686-E57B4CA36EBB}
+		{017FE2E4-C9A2-4223-9D54-95EBDA2094B3} = {B3F0E5D6-E456-4C6A-B518-0DBAFDB5458F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C26CC5C9-C60E-4B2A-81F0-F7FEB80982C9}
