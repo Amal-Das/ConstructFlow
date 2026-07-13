@@ -30,12 +30,12 @@ public partial class ProjectList
 
     private void GoToCreate()
     {
-        Navigation.NavigateTo("/projects/create");
+        Navigation.NavigateTo("projects/create");
     }
 
     private void ViewProject(int id)
     {
-        Navigation.NavigateTo($"/projects/{id}");
+        Navigation.NavigateTo($"projects/{id}");
     }
 
     private static string GetStatusClass(string status) => status switch

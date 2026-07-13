@@ -24,7 +24,7 @@ public partial class Login
                 if (result is not null)
                 {
                     await AuthStateProvider.MarkUserAsAuthenticated(result.Token);
-                    Navigation.NavigateTo("/");
+                    Navigation.NavigateTo("");
                 }
             }
             else

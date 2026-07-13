@@ -71,7 +71,7 @@ public partial class CreatePurchaseRequest
 
             if (response.IsSuccessStatusCode)
             {
-                Navigation.NavigateTo("/purchase-requests");
+                Navigation.NavigateTo("purchase-requests");
             }
             else
             {
@@ -90,7 +90,7 @@ public partial class CreatePurchaseRequest
 
     private void GoBack()
     {
-        Navigation.NavigateTo("/purchase-requests");
+        Navigation.NavigateTo("purchase-requests");
     }
 
     private class ProjectOption

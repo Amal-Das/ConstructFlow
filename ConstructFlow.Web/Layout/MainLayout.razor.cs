@@ -29,6 +29,6 @@ public partial class MainLayout
     private async Task HandleLogout()
     {
         await AuthStateProvider.MarkUserAsLoggedOut();
-        Navigation.NavigateTo("/login", forceLoad: true);
+        Navigation.NavigateTo("login", forceLoad: true);
     }
 }

@@ -59,8 +59,8 @@ public partial class InventoryList
     private void GoToCreate()
     {
         Navigation.NavigateTo(selectedProjectId == 0
-            ? "/inventory/create"
-            : $"/inventory/create?projectId={selectedProjectId}");
+            ? "inventory/create"
+            : $"inventory/create?projectId={selectedProjectId}");
     }
 
     private void OpenTransactionForm(InventoryItemDto item)

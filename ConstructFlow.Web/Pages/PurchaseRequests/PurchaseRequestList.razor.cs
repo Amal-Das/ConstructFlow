@@ -31,12 +31,12 @@ public partial class PurchaseRequestList : ComponentBase
 
     private void GoToCreate()
     {
-        Navigation.NavigateTo("/purchase-requests/create");
+        Navigation.NavigateTo("purchase-requests/create");
     }
 
     private void ViewComparison(int id)
     {
-        Navigation.NavigateTo($"/purchase-requests/{id}/comparison");
+        Navigation.NavigateTo($"purchase-requests/{id}/comparison");
     }
 
     private static string GetStatusClass(string status) => status switch

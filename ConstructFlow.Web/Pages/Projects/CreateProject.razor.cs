@@ -24,7 +24,7 @@ public partial class CreateProject
 
             if (response.IsSuccessStatusCode)
             {
-                Navigation.NavigateTo("/projects");
+                Navigation.NavigateTo("projects");
             }
             else
             {
@@ -44,7 +44,7 @@ public partial class CreateProject
 
     private void GoBack()
     {
-        Navigation.NavigateTo("/projects");
+        Navigation.NavigateTo("projects");
     }
 
     private class CreateProjectModel

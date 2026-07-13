@@ -27,7 +27,7 @@ public partial class Register
             {
                 isSuccess = true;
                 await Task.Delay(1500);
-                Navigation.NavigateTo("/login");
+                Navigation.NavigateTo("login");
             }
             else
             {

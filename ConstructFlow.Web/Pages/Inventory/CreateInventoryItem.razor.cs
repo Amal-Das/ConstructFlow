@@ -45,7 +45,7 @@ public partial class CreateInventoryItem : ComponentBase
 
             if (response.IsSuccessStatusCode)
             {
-                Navigation.NavigateTo("/inventory");
+                Navigation.NavigateTo("inventory");
             }
             else
             {
@@ -64,7 +64,7 @@ public partial class CreateInventoryItem : ComponentBase
 
     private void GoBack()
     {
-        Navigation.NavigateTo("/inventory");
+        Navigation.NavigateTo("inventory");
     }
 
     private class ProjectOption

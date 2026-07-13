@@ -30,7 +30,7 @@ public partial class VendorList
 
     private void GoToCreate()
     {
-        Navigation.NavigateTo("/vendors/create");
+        Navigation.NavigateTo("vendors/create");
     }
 
     private class VendorDto

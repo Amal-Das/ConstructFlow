@@ -24,7 +24,7 @@ public class UnauthorizedResponseHandler : DelegatingHandler
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
             await _authStateProvider.MarkUserAsLoggedOut();
-            _navigation.NavigateTo("/login", forceLoad: true);
+            _navigation.NavigateTo("login", forceLoad: true);
         }
 
         return response;

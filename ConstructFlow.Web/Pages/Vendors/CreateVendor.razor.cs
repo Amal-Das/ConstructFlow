@@ -24,7 +24,7 @@ public partial class CreateVendor : ComponentBase
 
             if (response.IsSuccessStatusCode)
             {
-                Navigation.NavigateTo("/vendors");
+                Navigation.NavigateTo("vendors");
             }
             else
             {
@@ -43,7 +43,7 @@ public partial class CreateVendor : ComponentBase
 
     private void GoBack()
     {
-        Navigation.NavigateTo("/vendors");
+        Navigation.NavigateTo("vendors");
     }
 
     private class CreateVendorModel
