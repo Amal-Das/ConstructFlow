@@ -5,20 +5,295 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ConstructFlow.Web</title>
-    <base href="/ConstructFlow/" />
+    <base href="/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="ConstructFlow.Web.styles.css" rel="stylesheet" />
+    <style>
+            /* ============================================
+           CONSTRUCTFLOW LOADING SCREEN
+        ============================================ */
+            .cf-loader {
+                position: fixed;
+                inset: 0;
+                background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1e40af 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+            }
+
+            .cf-loader-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            /* Brand */
+            .cf-brand {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .cf-brand-mark {
+                width: 40px;
+                height: 40px;
+                background: #2563eb;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                font-size: 1rem;
+                color: white;
+                font-family: system-ui, sans-serif;
+                box-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
+            }
+
+            .cf-brand-name {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: white;
+                font-family: system-ui, sans-serif;
+                letter-spacing: -0.02em;
+            }
+
+            /* Crane SVG */
+            .cf-crane-wrap {
+                width: 200px;
+                height: 160px;
+                filter: drop-shadow(0 0 12px rgba(37, 99, 235, 0.4));
+            }
+
+            .cf-crane-svg {
+                width: 100%;
+                height: 100%;
+            }
+
+            /* Trolley slides back and forth along the boom */
+            .cf-trolley {
+                animation: trolley-move 3s ease-in-out infinite;
+            }
+
+            /* Hook line stretches as trolley moves */
+            .cf-hook-line {
+                animation: hook-move 3s ease-in-out infinite;
+                transform-origin: top center;
+            }
+
+            /* Hook follows trolley */
+            .cf-hook {
+                animation: hook-move 3s ease-in-out infinite;
+            }
+
+            /* Load box follows trolley and bobs slightly */
+            .cf-load {
+                animation: load-move 3s ease-in-out infinite;
+            }
+
+            @keyframes trolley-move {
+                0% {
+                    transform: translateX(0px);
+                }
+
+                40% {
+                    transform: translateX(-70px);
+                }
+
+                60% {
+                    transform: translateX(-70px);
+                }
+
+                100% {
+                    transform: translateX(0px);
+                }
+            }
+
+            @keyframes hook-move {
+                0% {
+                    transform: translateX(0px);
+                }
+
+                40% {
+                    transform: translateX(-70px);
+                }
+
+                60% {
+                    transform: translateX(-70px);
+                }
+
+                100% {
+                    transform: translateX(0px);
+                }
+            }
+
+            @keyframes load-move {
+                0% {
+                    transform: translateX(0px) translateY(0px);
+                }
+
+                20% {
+                    transform: translateX(0px) translateY(-6px);
+                }
+
+                40% {
+                    transform: translateX(-70px) translateY(0px);
+                }
+
+                60% {
+                    transform: translateX(-70px) translateY(0px);
+                }
+
+                80% {
+                    transform: translateX(0px) translateY(-6px);
+                }
+
+                100% {
+                    transform: translateX(0px) translateY(0px);
+                }
+            }
+
+            /* Progress bar */
+            .cf-progress-track {
+                width: 220px;
+                height: 4px;
+                background: rgba(255, 255, 255, 0.15);
+                border-radius: 100px;
+                overflow: hidden;
+            }
+
+            .cf-progress-bar {
+                height: 100%;
+                background: linear-gradient(90deg, #3b82f6, #60a5fa);
+                border-radius: 100px;
+                animation: progress-fill 2.5s ease-in-out infinite;
+                box-shadow: 0 0 8px rgba(96, 165, 250, 0.6);
+            }
+
+            @keyframes progress-fill {
+                0% {
+                    width: 0%;
+                    opacity: 1;
+                }
+
+                70% {
+                    width: 85%;
+                    opacity: 1;
+                }
+
+                90% {
+                    width: 95%;
+                    opacity: 0.8;
+                }
+
+                100% {
+                    width: 100%;
+                    opacity: 0;
+                }
+            }
+
+            /* Loading text with animated dots */
+            .cf-loading-text {
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 0.875rem;
+                font-family: system-ui, sans-serif;
+                font-weight: 500;
+                letter-spacing: 0.02em;
+                margin: 0;
+            }
+
+            .cf-dots::after {
+                content: '';
+                animation: dots 1.5s steps(4, end) infinite;
+            }
+
+            @keyframes dots {
+                0% {
+                    content: '';
+                }
+
+                25% {
+                    content: '.';
+                }
+
+                50% {
+                    content: '..';
+                }
+
+                75% {
+                    content: '...';
+                }
+
+                100% {
+                    content: '';
+                }
+            }
+    </style>
 </head>
 
 <body>
     <div id="app">
-        <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
+        <div class="cf-loader">
+            <div class="cf-loader-content">
+
+                <!-- Brand -->
+                <div class="cf-brand">
+                    <div class="cf-brand-mark">CF</div>
+                    <span class="cf-brand-name">ConstructFlow</span>
+                </div>
+
+                <!-- Construction animation -->
+                <div class="cf-crane-wrap">
+                    <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" class="cf-crane-svg">
+                        <!-- Tower -->
+                        <rect x="90" y="60" width="10" height="90" fill="#2563eb" rx="1" />
+
+                        <!-- Horizontal boom -->
+                        <rect x="30" y="58" width="130" height="6" fill="#2563eb" rx="1" />
+
+                        <!-- Counter jib (short left side) -->
+                        <rect x="28" y="58" width="35" height="4" fill="#1d4ed8" rx="1" />
+
+                        <!-- Mast top triangle -->
+                        <polygon points="95,20 70,60 120,60" fill="#1d4ed8" />
+
+                        <!-- Support cables -->
+                        <line x1="95" y1="22" x2="40" y2="60" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="3,2" />
+                        <line x1="95" y1="22" x2="150" y2="60" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="3,2" />
+
+                        <!-- Trolley (moves along boom) -->
+                        <rect class="cf-trolley" x="110" y="54" width="14" height="8" fill="#1e40af" rx="1" />
+
+                        <!-- Hook line (hangs from trolley) -->
+                        <line class="cf-hook-line" x1="117" y1="62" x2="117" y2="95" stroke="#93c5fd" stroke-width="1.5" />
+
+                        <!-- Hook -->
+                        <path class="cf-hook" d="M113,95 Q113,105 117,105 Q121,105 121,95" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" />
+
+                        <!-- Load box (hanging from hook) -->
+                        <rect class="cf-load" x="109" y="105" width="16" height="12" fill="#1d4ed8" rx="1" />
+                        <line x1="109" y1="109" x2="125" y2="109" stroke="#3b82f6" stroke-width="0.8" />
+                        <line x1="117" y1="105" x2="117" y2="117" stroke="#3b82f6" stroke-width="0.8" />
+
+                        <!-- Ground base -->
+                        <rect x="75" y="148" width="40" height="8" fill="#1e40af" rx="2" />
+                        <rect x="65" y="154" width="60" height="5" fill="#1e3a8a" rx="2" />
+                    </svg>
+                </div>
+
+                <!-- Progress bar -->
+                <div class="cf-progress-track">
+                    <div class="cf-progress-bar"></div>
+                </div>
+
+                <!-- Loading text -->
+                <p class="cf-loading-text">Building your workspace<span class="cf-dots"></span></p>
+            </div>
+        </div>
     </div>
 
     <div id="blazor-error-ui">
